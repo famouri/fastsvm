@@ -150,10 +150,10 @@ public class svm_train {
 		param.coef0 = 0;
 		param.nu = 0.5;
 		param.cache_size = 100;
-		param.C = 0.1;
+		param.C = 1000;
 		param.eps = 1e-6;
 		param.p = 0.1;
-		param.shrinking = 1;
+		param.shrinking = 0;
 		param.probability = 0;
 		param.nr_weight = 0;
 		param.weight_label = new int[0];
