@@ -173,6 +173,7 @@ public class Solver {
 
     void Solve(int l, QMatrix Q, double[] p_, byte[] y_,
             double[] alpha_, double Cp, double Cn, double eps, SolutionInfo si, int shrinking) {
+        
         this.l = l;
         this.Q = Q;
         QD = Q.get_QD();
@@ -381,6 +382,31 @@ public class Solver {
                     }
                 }
             }
+            {
+                // calculate objective value
+                float b = (float)calculate_rho();
+                float kisi[] = new float[l];
+                for(int iii=0;iii<l;iii++){
+                    float []Qi = Q.get_Q(iii, l);
+                    float temp = 0;
+                    for(int jjj=0;jjj<l;jjj++){
+                        temp += alpha[jjj]*y[jjj]*Qi[jjj];
+                    }
+                    kisi[iii]= -1*((temp+b)*y[iii])+1;
+                    if(kisi[iii]<0)
+                        kisi[iii]=0;
+                }
+                
+                double primal = 0;
+                double dual = 0;                
+                for (int iii = 0; iii < l; iii++) {
+                    primal += alpha[iii] * G[iii] + kisi[iii]*get_C(iii);
+                    dual += alpha[iii] * (G[iii] + p[iii]);
+                }
+                System.out.println("svm dual = "+dual / 2);
+                System.out.println("svm primal = "+primal );
+            }
+            
 //            System.out.println(old_alpha_i +" => " +alpha[i]);
 //            System.out.println(old_alpha_j +" => " +alpha[j]);
             // Calculate Dual Objective
@@ -477,7 +503,7 @@ public class Solver {
 
             si.obj = v / 2;
         }
-
+        System.out.println("svm dual = "+si.obj);
         // put back the solution
         {
             for (int i = 0; i < l; i++) {
