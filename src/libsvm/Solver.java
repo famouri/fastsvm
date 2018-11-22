@@ -400,10 +400,10 @@ public class Solver {
                 double primal = 0;
                 double dual = 0;                
                 for (int iii = 0; iii < l; iii++) {
-                    primal += alpha[iii] * G[iii] + kisi[iii]*get_C(iii);
+                    primal += (alpha[iii] * G[iii])/2 + kisi[iii]*get_C(iii);
                     dual += alpha[iii] * (G[iii] + p[iii]);
                 }
-                System.out.println("svm dual = "+dual / 2);
+                System.out.println("svm dual = "+(-1*dual) / 2);
                 System.out.println("svm primal = "+primal );
             }
             
@@ -524,7 +524,7 @@ public class Solver {
                     primal += (alpha[iii] * G[iii])/2 + kisi[iii]*get_C(iii);
                     dual += alpha[iii] * (G[iii] + p[iii]);
                 }
-                System.out.println("svm dual = "+dual / 2);
+                System.out.println("svm dual = "+(-1*dual) / 2);
                 System.out.println("svm primal = "+primal );
             }
         // put back the solution
